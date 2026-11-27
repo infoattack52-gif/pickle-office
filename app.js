@@ -180,7 +180,7 @@ function renderPeople(){
         const txt = String(lastMsg.text || '').replace(/\s+/g, ' ').trim();
         const clipped = txt.length > 18 ? txt.slice(0, 18) + '…' : txt;
         const w = Math.max(96, clipped.length * 6.4 + 18);
-        const shift = (room === 'lounge' || room === 'cafe') ? 46 : 0;
+        const shift = 0;
         bubble = `
           <g class="bubble" transform="translate(${shift},0)">
             <rect class="bubble-box" x="${-w/2}" y="-64" width="${w}" height="24" rx="9" fill="#fffdfb" stroke="#e6dccf"/>
