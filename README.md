@@ -96,3 +96,10 @@ curl -N -H "Accept: text/event-stream" "$DB/.json"
 - `index.html` — 화면 구조(오피스 맵 SVG, 채팅, 업무 보드, 연결 가이드 모달)
 - `styles.css` — 파스텔 톤 반응형 스타일(PC 2단 / 모바일 1단)
 - `app.js` — Firebase REST + SSE 실시간 동기화, 멤버·채팅·업무 렌더링
+- `mobile-preview.html` — PC에서 모바일 390px 화면을 나란히 보는 미리보기 페이지
+
+## 상태
+
+- Firebase 프로젝트 `pickle-office-hub` (Spark 무료), Realtime Database `pickle-office-hub-default-rtdb` (asia-southeast1)
+- 초기 데이터: 이브 · 이광호 · 업무폰(@leegwangho82, 초대 대기) 멤버, 이브의 환영 메시지 1건, 샘플 업무 1건
+- 실시간은 SSE 스트리밍(`Accept: text/event-stream`) + 이벤트 발생 시 재조회 방식. 스트림이 끊기면 4초 폴링으로 자동 전환되고 30초마다 재연결합니다.
