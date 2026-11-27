@@ -256,7 +256,11 @@ curl -X PATCH "<span class="db-var"></span>/rooms/main/tasks/t-001.json" -d '{"s
       <pre class="code-block">{
   "rules": {
     ".read": true,
-    ".write": true
+    ".write": true,
+    "rooms": { "main": {
+      "messages": { ".indexOn": ["ts"] },
+      "tasks": { ".indexOn": ["ts"] }
+    }}
   }
 }</pre>
       <p class="guide-note">지금은 누구나 읽고 쓸 수 있는 공개 모드예요. 민감한 내용은 올리지 말고, 필요하면 Firebase 콘솔 → Realtime Database → 규칙에서 특정 경로만 열도록 좁혀 주세요.</p>

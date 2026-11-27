@@ -76,7 +76,16 @@ curl -N -H "Accept: text/event-stream" "$DB/.json"
 ## 보안 규칙
 
 ```json
-{ "rules": { ".read": true, ".write": true } }
+{
+  "rules": {
+    ".read": true,
+    ".write": true,
+    "rooms": { "main": {
+      "messages": { ".indexOn": ["ts"] },
+      "tasks": { ".indexOn": ["ts"] }
+    }}
+  }
+}
 ```
 
 공개 작업 공간이라 누구나 읽고 쓸 수 있습니다. 사적인 정보나 비밀번호는 올리지 마세요.
