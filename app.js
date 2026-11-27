@@ -179,7 +179,7 @@ function renderPeople(){
       if (selected && lastMsg){
         const txt = String(lastMsg.text || '').replace(/\s+/g, ' ').trim();
         const clipped = txt.length > 18 ? txt.slice(0, 18) + '…' : txt;
-        const w = Math.max(96, clipped.length * 6.4 + 18);
+        const w = Math.max(104, clipped.length * 6.9 + 18);
         const shift = 0;
         bubble = `
           <g class="bubble" transform="translate(${shift},0)">
@@ -195,10 +195,10 @@ function renderPeople(){
           ${bubble}
           <circle class="avatar-ring" r="31" fill="none" stroke="#8f63c9" stroke-width="2" stroke-dasharray="4 4"/>
           <circle r="24" fill="${esc(color)}" stroke="#ffffff" stroke-width="2.5"/>
-          <text y="7" text-anchor="middle" font-size="20">${esc(emoji)}</text>
+          <text y="7" text-anchor="middle" font-size="22">${esc(emoji)}</text>
           <circle cx="17" cy="-17" r="5" fill="${waiting ? '#e8a33d' : '#57b894'}" stroke="#ffffff" stroke-width="2"/>
-          <text class="person-label" y="42">${esc(m.name || '이름없음')}</text>
-          <text class="person-handle" y="54">${esc(m.handle || '')}</text>
+          <text class="person-label" y="44">${esc(m.name || '이름없음')}</text>
+          <text class="person-handle" y="57">${esc(m.handle || '')}</text>
         </g>`;
     });
   });

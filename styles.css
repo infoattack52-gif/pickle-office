@@ -109,14 +109,14 @@ body{
 /* ---------- 오피스 맵 ---------- */
 .map-wrap{width:100%;border-radius:16px;overflow:hidden;background:#fbf4ea}
 #officeMap{display:block;width:100%;height:auto}
-.room-label{font-size:11.5px;font-weight:700;fill:#8f8298;letter-spacing:.4px}
+.room-label{font-size:14px;font-weight:700;fill:#8f8298;letter-spacing:.4px}
 #peopleLayer .person{cursor:pointer}
 #peopleLayer .person:hover .avatar-ring{opacity:1}
 .avatar-ring{opacity:0;transition:opacity .15s}
-.person-label{font-size:10.5px;font-weight:700;fill:#4b4258;text-anchor:middle}
-.person-handle{font-size:8.5px;fill:#9a8fa8;text-anchor:middle}
+.person-label{font-size:13px;font-weight:700;fill:#4b4258;text-anchor:middle}
+.person-handle{font-size:10px;fill:#9a8fa8;text-anchor:middle}
 .bubble-box{rx:9}
-.bubble-text{font-size:9.5px;fill:#584a68;text-anchor:middle}
+.bubble-text{font-size:11.5px;fill:#584a68;text-anchor:middle}
 
 .member-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .member-chip{
