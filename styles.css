@@ -302,4 +302,8 @@ body{
   .task-form .btn-primary{width:100%}
   .card{padding:12px}
   .brand-text h1{font-size:15.5px}
+  .room-label{font-size:17px}
+  .person-label{font-size:16px}
+  .person-handle{font-size:12px}
+  .bubble-text{font-size:13px}
 }
