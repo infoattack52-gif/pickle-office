@@ -389,8 +389,8 @@ function renderOwnerSelects(){
     const el = $(sel); if (!el) return;
     const prev = el.value;
     el.innerHTML = extra;
-    if (prev) el.value = prev;
-    if (!el.value) el.value = me.handle;
+    el.value = prev || me.handle;
+    if (!el.value && list.length) el.value = list[0].handle || list[0].name;
   });
 }
 
