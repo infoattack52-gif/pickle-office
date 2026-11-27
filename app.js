@@ -402,6 +402,11 @@ async function sendMessage(text){
   const id = `m${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
   try{
     await apiPut(`${ROOM}/messages/${id}`, { from: me.handle, name: me.name, text: t, ts: Date.now() });
+    fetch('https://ai-roundtable-studio.lovable.app/api/public/office-hook', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    }).catch(() => {});
     const input = $('#chatInput'); if (input) input.value = '';
     scheduleReload();
   }catch(err){
