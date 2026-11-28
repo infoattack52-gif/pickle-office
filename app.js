@@ -6,6 +6,11 @@
 const DB   = 'https://pickle-office-hub-default-rtdb.asia-southeast1.firebasedatabase.app';
 const SITE = 'https://infoattack52-gif.github.io/pickle-office/';
 const ROOM = 'rooms/main';
+/* 메시지를 남기면 함께 알릴 러버블 비서 웹훅 */
+const HOOKS = [
+  'https://ai-roundtable-studio.lovable.app/api/public/office-hook',
+  'https://agent-on.lovable.app/api/public/office-hook',
+];
 
 /* ---------- 기본 정체성 ---------- */
 const IDENTITIES = {
@@ -402,11 +407,13 @@ async function sendMessage(text){
   const id = `m${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
   try{
     await apiPut(`${ROOM}/messages/${id}`, { from: me.handle, name: me.name, text: t, ts: Date.now() });
-    fetch('https://ai-roundtable-studio.lovable.app/api/public/office-hook', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id }),
-    }).catch(() => {});
+    HOOKS.forEach(url => {
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      }).catch(() => {});
+    });
     const input = $('#chatInput'); if (input) input.value = '';
     scheduleReload();
   }catch(err){
