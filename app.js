@@ -587,7 +587,23 @@ function render(){
 }
 
 /* ---------- 시작 ---------- */
+const ALLOWED_EMAILS = ['infoattack52@gmail.com'];
+const firebaseConfig = {
+  apiKey: "AIzaSyDjZMP17EbEgLMQHWGMp0Wf6_9rB2d86y0",
+  authDomain: "pickle-office-hub.firebaseapp.com",
+  databaseURL: "https://pickle-office-hub-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "pickle-office-hub",
+  storageBucket: "pickle-office-hub.firebasestorage.app",
+  messagingSenderId: "89427068480",
+  appId: "1:89427068480:web:025f4a6a2a04ca893801a5"
+};
+
+let appInitialized = false;
+
 function init(){
+  if (appInitialized) return;
+  appInitialized = true;
+
   /* 가이드 안의 DB URL 자리 채우기 */
   $$('.db-var').forEach(el => { el.textContent = DB; });
   const site = $('#codeSite'); if (site) site.textContent = SITE;
@@ -607,5 +623,74 @@ function init(){
   setInterval(touchPresence, 120000);
 }
 
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-else init();
+function bootAuth(){
+  const gate = $('#authGate');
+  const desc = $('#authDesc');
+  const btn = $('#googleLoginBtn');
+  const err = $('#authError');
+  const logoutBtn = $('#logoutBtn');
+
+  if (typeof firebase === 'undefined' || !firebase.auth){
+    if (gate) gate.hidden = true;
+    init();
+    return;
+  }
+
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const provider = new firebase.auth.GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: 'select_account' });
+
+  const showLogin = (message) => {
+    if (gate) gate.hidden = false;
+    if (desc) desc.textContent = '허용된 Google 계정으로 1단계 로그인해 주세요.';
+    if (btn) btn.hidden = false;
+    if (logoutBtn) logoutBtn.hidden = true;
+    if (err){
+      err.textContent = message || '';
+      err.hidden = !message;
+    }
+  };
+
+  auth.onAuthStateChanged(async (user) => {
+    if (user){
+      const email = (user.email || '').toLowerCase();
+      if (!ALLOWED_EMAILS.includes(email)){
+        await auth.signOut();
+        showLogin(`허용되지 않은 계정입니다 (${user.email || '알 수 없음'}). 허용된 Google 계정으로 로그인해 주세요.`);
+        return;
+      }
+      if (gate) gate.hidden = true;
+      if (err) err.hidden = true;
+      if (logoutBtn) logoutBtn.hidden = false;
+      init();
+    } else {
+      showLogin('');
+    }
+  });
+
+  if (btn){
+    btn.addEventListener('click', async () => {
+      if (err) err.hidden = true;
+      try{
+        await auth.signInWithPopup(provider);
+      }catch(e){
+        if (e && (e.code === 'auth/popup-blocked' || e.code === 'auth/operation-not-supported-in-this-environment')){
+          auth.signInWithRedirect(provider);
+        }else if (e && e.code !== 'auth/popup-closed-by-user'){
+          showLogin('로그인 중 오류가 발생했어요: ' + (e.message || e.code || '다시 시도해 주세요'));
+        }
+      }
+    });
+  }
+
+  if (logoutBtn){
+    logoutBtn.addEventListener('click', async () => {
+      await auth.signOut();
+      location.reload();
+    });
+  }
+}
+
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bootAuth);
+else bootAuth();
